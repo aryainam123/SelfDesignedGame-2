@@ -1,58 +1,86 @@
-var spaceImg,ISSImg,spaceCraftImg1,spaceCraftImg2,spaceCraftImg3,spaceCraftImg4;
-var iss,spaceCraft;
+var seaImg1,seaImg2,scrollImg,startImg,levelsImg;
+var level1Img,level2Img,level3Img,level4Img,level5Img,levelLockImg;
+var sea,scroll,start;
+var level1,level2,level3,level4,level5;
+var gameState = "Start";
 
 function preload(){
-  spaceImg = loadImage("images/spacebg.jpg");
-  ISSImg = loadImage("images/iss.png");
-  spaceCraftImg1 = loadImage("images/spacecraft1.png");
-  spaceCraftImg2 = loadImage("images/spacecraft4.png");
-  spaceCraftImg3 = loadImage("images/spacecraft3.png");
-  spaceCraftImg4 = loadImage("images/spacecraft2.png");
+  seaImg1 = loadImage("images/seaImg1.jpg");
+  seaImg2 = loadImage("images/seaImg2.webp");
+  scrollImg = loadImage("images/scroll.png");
+  startImg = loadImage("images/start.png");
+  level1Img = loadImage("images/level1.png");
+  level2Img = loadImage("images/level2.png");
+  level3Img = loadImage("images/level3.png");
+  level4Img = loadImage("images/level4.png");
+  level5Img = loadImage("images/level5.png");
+  levelLockImg = loadImage("images/levellock.png");
+  levelsImg = loadImage("images/levelsImg.png");
 }
 
-function setup() {
+function setup(){
   createCanvas(800,400);
-  spaceCraft = createSprite(random(200,600),350,50,50);
-  spaceCraft.addImage(spaceCraftImg1);
-  spaceCraft.scale = 0.15
+  sea = createSprite(400,200);
+  sea.addImage(seaImg1);
+  sea.scale = 3;
 
-  iss = createSprite(400,200,50,50);
-  iss.addImage(ISSImg);
-  iss.scale = 0.7;
+  scroll  = createSprite(400,200);
+  scroll.addImage(scrollImg);
+  scroll.scale = 0.8;
+
+  start = createSprite(500,360);
+  start.addImage(startImg);
+
+  level1 = createSprite(200,200);
+    level1.addImage(level1Img);
+    level2 = createSprite(300,200);
+    level2.addImage(levelLockImg);
+    level3 = createSprite(400,200);
+    level3.addImage(levelLockImg);
+    level4 = createSprite(500,200);
+    level4.addImage(levelLockImg);
+    level5 = createSprite(600,200);
+    level5.addImage(levelLockImg);
+
+    level1.visible = false;
+    level2.visible = false;
+    level3.visible = false;
+    level4.visible = false;
+    level5.visible = false;
+
+
+
 }
 
-function draw() {
-  console.log(spaceCraft.x);
-  console.log(spaceCraft.y);
-  background(spaceImg); 
+function draw(){
+  background(225);
+  console.log(gameState);
 
-  if(keyDown(RIGHT_ARROW)){
-    spaceCraft.x = spaceCraft.x+1;
-    spaceCraft.addImage(spaceCraftImg2);
+  if(mousePressedOver(start)&&gameState === "Start"){
+    gameState = "Middle"
+    scroll.visible = false;
+    start.visible = false;
+    sea.addImage(seaImg2);
+    sea.scale = 2
+
+    level1.visible = true;
+    level2.visible = true;
+    level3.visible = true;
+    level4.visible = true;
+    level5.visible = true;    
   }
 
-  else if(keyDown(LEFT_ARROW)){
-    spaceCraft.x = spaceCraft.x-1;
-    spaceCraft.addImage(spaceCraftImg3);
-  }
+  if(mousePressedOver(level1)&&gameState === "Middle"){
+    gameState === "Level1"
+    level1.visible = false;
+    level2.visible = false;
+    level3.visible = false;
+    level4.visible = false;
+    level5.visible = false;
 
-  else if(keyDown(DOWN_ARROW)){
-    spaceCraft.addImage(spaceCraftImg4);
-    //spaceCraft.y = spaceCraft.y+1
+    island = createSprite(400,200);
+    island.addImage(levelsImg);
+    island.scale = 9;
   }
-
-  else{
-    spaceCraft.addImage(spaceCraftImg1);
-  }
-
-  if(keyDown(UP_ARROW)){
-    spaceCraft.y = spaceCraft.y-1
-  }
-
-  if(spaceCraft.x === 355&&spaceCraft.y === 255){
-    textSize(30);
-    fill(255)
-    text("Docking Sucessful!!",400,350);
-  }
-  drawSprites();
+   drawSprites();
 }
